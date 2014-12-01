@@ -1,0 +1,25 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="uwosh.dropcard">
+
+  <include package="plone.app.contentmenu" />
+
+  <!-- -*- extra stuff goes here -*- -->
+<browser:page
+    name="dropcard_view"
+    for="..interfaces.dropcard.IDropCard"
+    permission="zope2.View"
+    class=".views.DropCardView"
+    />
+
+<browser:resource
+    name="dropcard.js"
+    file="resources/dropcard.js"
+    />
+
+<browser:resource
+    name="dropcard.css"
+    file="resources/dropcard.css"
+    />
+</configure>

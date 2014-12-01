@@ -1,0 +1,680 @@
+<?xml version="1.0"?>
+<contentrules>
+ <rule name="--workflowmanager--dropcard--archive"
+    title="archive transition content rule"
+    description="This content rule was automatically created by the workflow manager to create actions on workflow events. If you want the behavior to work as expected, do not modify this outside the workflow manager."
+    enabled="True" event="Products.CMFCore.interfaces.IActionSucceededEvent"
+    stop-after="False">
+  <conditions>
+   <condition type="plone.conditions.WorkflowTransition">
+    <property name="wf_transitions">
+     <element>archive</element>
+    </property>
+   </condition>
+   <condition type="plone.conditions.PortalType">
+    <property name="check_types">
+     <element>DropCard</element>
+    </property>
+   </condition>
+  </conditions>
+  <actions>
+   <action type="collective.easytemplate.actions.Mail">
+    <property name="source"></property>
+    <property name="message">
+          You have archived this drop card:
+          
+          {{ context.absolute_url() }}
+          
+          
+          -------------
+          
+          Request is for {{ context.getFullname() }} ({{context.getStudentemail()}})
+          
+          and the dropped class is:
+          
+          {{context.getSubjects()}}, instructor is {{context.getMemberEmail(context.getInstructorID1())}})
+          
+          Here is your explanation of the drop:
+          
+          {{context.getComments()}}
+                              </property>
+    <property
+       name="recipients">{% for m in context.getRegistrarGroupMemberEmails() %} {{ m }}, {% endfor %}</property>
+    <property
+       name="subject">you have archived this drop card for {{ context.getFullname() }} </property>
+   </action>
+  </actions>
+ </rule>
+ <rule name="--workflowmanager--dropcard--submitforinstructor1approval"
+    title="submitforinstructor1approval transition content rule"
+    description="This content rule was automatically created by the workflow manager to create actions on workflow events. If you want the behavior to work as expected, do not modify this outside the workflow manager."
+    enabled="True" event="Products.CMFCore.interfaces.IActionSucceededEvent"
+    stop-after="False">
+  <conditions>
+   <condition type="plone.conditions.WorkflowTransition">
+    <property name="wf_transitions">
+     <element>submitforinstructor1approval</element>
+    </property>
+   </condition>
+   <condition type="plone.conditions.PortalType">
+    <property name="check_types">
+     <element>DropCard</element>
+    </property>
+   </condition>
+  </conditions>
+  <actions>
+   <action type="collective.easytemplate.actions.Mail">
+    <property name="source"></property>
+    <property name="message">
+          Please click on the following link to review this drop card.  You may approve or deny the request.  You may also request add a comment then request a response from the student.
+          
+          {{ context.absolute_url() }}
+          
+          The student is {{ context.getFullname() }} ({{context.getStudentemail()}})
+          
+          and the dropped class is:
+          
+          {{context.getSubjects()}} instructor is {{context.getMemberEmail(context.getInstructorID1())}})
+          
+          Here is the student's explanation of the drop:
+          
+          {{context.getComments()}}
+                              </property>
+    <property
+       name="recipients">{{ context.getMemberEmail(context.getInstructorID1()) }}</property>
+    <property
+       name="subject">your approval is needed for a drop card for ({{ context.getFullname() }})</property>
+   </action>
+   <action type="collective.easytemplate.actions.Mail">
+    <property name="source"></property>
+    <property name="message">
+          Your drop card request has been sent for review to {{context.getMemberEmail(context.getInstructorID1())}}
+          
+          You may view your request at any time by clicking on the following link:
+          
+          {{ context.absolute_url() }}
+          
+          
+          -------------
+          
+          Request is for {{ context.getFullname() }} ({{context.getStudentemail()}})
+          
+          and the dropped class is:
+          
+          {{context.getSubjects()}}, instructor is {{context.getMemberEmail(context.getInstructorID1())}})
+          
+          Here is your explanation of the drop:
+          
+          {{context.getComments()}}
+                              </property>
+    <property name="recipients">{{ context.getStudentemail() }}</property>
+    <property name="subject">you submitted a drop card</property>
+   </action>
+  </actions>
+ </rule>
+ <rule name="--workflowmanager--dropcard--submittoregistrarforprocessing"
+    title="submittoregistrarforprocessing transition content rule"
+    description="This content rule was automatically created by the workflow manager to support actions on workflow transitions. If you want the behavior to work as expected, do not modify this outside the workflow manager."
+    enabled="True" event="Products.CMFCore.interfaces.IActionSucceededEvent"
+    stop-after="False">
+  <conditions>
+   <condition type="plone.conditions.WorkflowTransition">
+    <property name="wf_transitions">
+     <element>submittoregistrarforprocessing</element>
+    </property>
+   </condition>
+   <condition type="plone.conditions.PortalType">
+    <property name="check_types">
+     <element>DropCard</element>
+    </property>
+   </condition>
+  </conditions>
+  <actions>
+   <action type="collective.easytemplate.actions.Mail">
+    <property name="source"></property>
+    <property name="message">
+          Your drop card request has been approved by the instructor {{context.getMemberEmail(context.getInstructorID1())}} and is awaiting processing by the Registrar's Office.
+          
+          You may view your request at any time by clicking on the following link:
+          
+          {{ context.absolute_url() }}
+          
+          
+          -------------
+          
+          Request is for {{ context.getFullname() }} ({{context.getStudentemail()}})
+          
+          and the dropped class is:
+          
+          {{context.getSubjects()}}, instructor is {{context.getMemberEmail(context.getInstructorID1())}})
+          
+          Here is your explanation of the drop:
+          
+          {{context.getComments()}}
+                              </property>
+    <property name="recipients">{{ context.getStudentemail() }}</property>
+    <property
+       name="subject">your drop card has been approved by the instructor and awaits processing by the Registrar</property>
+   </action>
+   <action type="collective.easytemplate.actions.Mail">
+    <property name="source"></property>
+    <property name="message">
+          You approved this drop card, and it is now awaiting processing by the Registrar's Office:
+          
+          {{ context.absolute_url() }}
+          
+          The student is {{ context.getFullname() }} ({{context.getStudentemail()}})
+          
+          and the dropped class is:
+          
+          {{context.getSubjects()}}, instructor is {{context.getMemberEmail(context.getInstructorID1())}})
+          
+          Here is the student's explanation of the drop:
+          
+          {{context.getComments()}}
+                              </property>
+    <property
+       name="recipients">{{ context.getMemberEmail(context.getInstructorID2()) }}</property>
+    <property
+       name="subject">you approved a drop card for ({{ context.getFullname() }})</property>
+   </action>
+   <action type="collective.easytemplate.actions.Mail">
+    <property name="source"></property>
+    <property name="message">
+          Please process this drop card request.  It has been approved by the instructor {{context.getMemberEmail(context.getInstructorID1())}} 
+          
+          You may view the request here:
+          
+          {{ context.absolute_url() }}
+          
+          
+          -------------
+          
+          Request is for {{ context.getFullname() }} ({{context.getStudentemail()}})
+          
+          and the dropped class is:
+          
+          {{context.getSubjects()}}, instructor is {{context.getMemberEmail(context.getInstructorID1())}})
+          
+          Here is your explanation of the drop:
+          
+          {{context.getComments()}}
+                              </property>
+    <property
+       name="recipients">{% for m in context.getRegistrarGroupMemberEmails() %} {{ m }}, {% endfor %}</property>
+    <property
+       name="subject">please process this drop card for {{ context.getFullname() }} </property>
+   </action>
+  </actions>
+ </rule>
+ <rule name="--workflowmanager--dropcard--addcomment"
+    title="addcomment transition content rule"
+    description="This content rule was automatically created by the workflow manager to support actions on workflow transitions. If you want the behavior to work as expected, do not modify this outside the workflow manager."
+    enabled="True" event="Products.CMFCore.interfaces.IActionSucceededEvent"
+    stop-after="False">
+  <conditions>
+   <condition type="plone.conditions.WorkflowTransition">
+    <property name="wf_transitions">
+     <element>addcomment</element>
+    </property>
+   </condition>
+   <condition type="plone.conditions.PortalType">
+    <property name="check_types">
+     <element>DropCard</element>
+    </property>
+   </condition>
+  </conditions>
+  <actions>
+   <action type="collective.easytemplate.actions.Mail">
+    <property name="source"></property>
+    <property name="message">
+          A comment has been added to a time conflict card for {{ context.getFullname() }}:
+          
+          Comment added was:
+          
+          {{ portal.portal_workflow.getInfoFor(context, 'review_history')[-1]['comments'] }}
+          
+          
+          You may view the request at any time by clicking on the following link:
+          
+          {{ context.absolute_url() }}
+          
+          
+          -------------
+          
+          Request is for {{ context.getFullname() }} ({{context.getStudentemail()}})
+          
+          and the dropped class is:
+          
+          {{context.getSubjects()}}, instructor is {{context.getMemberEmail(context.getInstructorID1())}})
+          
+          Here is your explanation of the drop:
+          
+          {{context.getComments()}}
+                              </property>
+    <property
+       name="recipients">{{ context.getMemberEmail(context.getInstructorID1()) }}, {{ context.getMemberEmail(context.getInstructorID2()) }}, {{ context.getStudentemail() }}, {% for m in context.getRegistrarGroupMemberEmails() %} {{ m }}, {% endfor %}</property>
+    <property
+       name="subject">a comment has been added to a drop card for {{ context.getFullname() }}</property>
+   </action>
+  </actions>
+ </rule>
+ <rule name="--workflowmanager--dropcard--registrarsofficecompletesprocessing"
+    title="registrarsofficecompletesprocessing transition content rule"
+    description="This content rule was automatically created by the workflow manager to support actions on workflow transitions. If you want the behavior to work as expected, do not modify this outside the workflow manager."
+    enabled="True" event="Products.CMFCore.interfaces.IActionSucceededEvent"
+    stop-after="False">
+  <conditions>
+   <condition type="plone.conditions.WorkflowTransition">
+    <property name="wf_transitions">
+     <element>registrarsofficecompletesprocessing</element>
+    </property>
+   </condition>
+   <condition type="plone.conditions.PortalType">
+    <property name="check_types">
+     <element>DropCard</element>
+    </property>
+   </condition>
+  </conditions>
+  <actions>
+   <action type="collective.easytemplate.actions.Mail">
+    <property name="source"></property>
+    <property name="message">
+          Your drop card has been processed by the Registrar's Office. Please check that the correct class has been dropped.
+          
+          You may view your request at any time by clicking on the following link:
+          
+          {{ context.absolute_url() }}
+          
+          
+          -------------
+          
+          Request is for {{ context.getFullname() }} ({{context.getStudentemail()}})
+          
+          and the dropped class is:
+          
+          {{context.getSubjects()}}, instructor is {{context.getMemberEmail(context.getInstructorID1())}})
+          
+          Here is your explanation of the drop:
+          
+          {{context.getComments()}}
+                              </property>
+    <property name="recipients">{{ context.getStudentemail() }}</property>
+    <property
+       name="subject">your drop card has been processed by the Registrar</property>
+   </action>
+   <action type="collective.easytemplate.actions.Mail">
+    <property name="source"></property>
+    <property name="message">
+          You have completed processing this drop card request:
+          
+          {{ context.absolute_url() }}
+          
+          
+          -------------
+          
+          Request is for {{ context.getFullname() }} ({{context.getStudentemail()}})
+          
+          and the class to be dropped is:
+          
+          {{context.getSubjects()}}, instructor is {{context.getMemberEmail(context.getInstructorID1())}})
+          
+          Here is your explanation of the drop:
+          
+          {{context.getComments()}}
+                              </property>
+    <property
+       name="recipients">{% for m in context.getRegistrarGroupMemberEmails() %} {{ m }}, {% endfor %}</property>
+    <property
+       name="subject">You have completed processing a drop card for {{ context.getFullname() }} </property>
+   </action>
+  </actions>
+ </rule>
+ <rule name="--workflowmanager--dropcard--instructor1deniesrequest"
+    title="instructor1deniesrequest transition content rule"
+    description="This content rule was automatically created by the workflow manager to support actions on workflow transitions. If you want the behavior to work as expected, do not modify this outside the workflow manager."
+    enabled="True" event="Products.CMFCore.interfaces.IActionSucceededEvent"
+    stop-after="False">
+  <conditions>
+   <condition type="plone.conditions.WorkflowTransition">
+    <property name="wf_transitions">
+     <element>instructor1deniesrequest</element>
+    </property>
+   </condition>
+   <condition type="plone.conditions.PortalType">
+    <property name="check_types">
+     <element>DropCard</element>
+    </property>
+   </condition>
+  </conditions>
+  <actions>
+   <action type="collective.easytemplate.actions.Mail">
+    <property name="source"></property>
+    <property name="message">
+     Your drop card request has been denied by {{context.getMemberEmail(context.getInstructorID1())}}.
+     
+     You may view your request at any time by clicking on the following link:
+     
+     {{ context.absolute_url() }}
+     
+     
+     -------------
+     
+     Request is for {{ context.getFullname() }} ({{context.getStudentemail()}})
+     
+     and the dropped class is:
+     
+     {{context.getSubject1()}}, instructor is {{context.getMemberEmail(context.getInstructorID1())}})
+     
+     Here is your explanation of the drop:
+     
+     {{context.getComments()}}
+                         </property>
+    <property name="recipients">{{ context.getStudentemail() }}</property>
+    <property
+       name="subject">your drop request has been denied by {{context.getMemberEmail(context.getInstructorID1())}}</property>
+   </action>
+   <action type="collective.easytemplate.actions.Mail">
+    <property name="source"></property>
+    <property name="message">
+     You denied this drop card request:
+     
+     {{ context.absolute_url() }}
+     
+     The student is {{ context.getFullname() }} ({{context.getStudentemail()}})
+     
+     and the class being dropped is:
+     
+     {{context.getSubjects()}}, instructor is {{context.getMemberEmail(context.getInstructorID1())}})
+     
+     Here is the student's explanation of the drop:
+     
+     {{context.getComments()}}
+                         </property>
+    <property
+       name="recipients">{{ context.getMemberEmail(context.getInstructorID1()) }}</property>
+    <property
+       name="subject">you denied a drop card request for ({{ context.getFullname() }})</property>
+   </action>
+  </actions>
+ </rule>
+ <rule name="--workflowmanager--dropcard--instructor1requestsmoreinformation"
+    title="instructor1requestsmoreinformation transition content rule"
+    description="This content rule was automatically created by the workflow manager to support actions on workflow transitions. If you want the behavior to work as expected, do not modify this outside the workflow manager."
+    enabled="True" event="Products.CMFCore.interfaces.IActionSucceededEvent"
+    stop-after="False">
+  <conditions>
+   <condition type="plone.conditions.WorkflowTransition">
+    <property name="wf_transitions">
+     <element>instructor1requestsmoreinformation</element>
+    </property>
+   </condition>
+   <condition type="plone.conditions.PortalType">
+    <property name="check_types">
+     <element>DropCard</element>
+    </property>
+   </condition>
+  </conditions>
+  <actions>
+   <action type="collective.easytemplate.actions.Mail">
+    <property name="source"></property>
+    <property name="message">
+          You have requested more information for this drop card, and it is now awaiting a response from  {{context.getMemberEmail(context.getStudentemail())}}:
+          
+          {{ context.absolute_url() }}
+          
+          The student is {{ context.getFullname() }} ({{context.getStudentemail()}})
+          
+          and the class to be dropped is:
+          
+          {{context.getSubject1()}}, instructor is {{context.getMemberEmail(context.getInstructorID1())}})
+          
+          
+          Here is the student's explanation of the drop:
+          
+          {{context.getComments()}}
+                              </property>
+    <property
+       name="recipients">{{ context.getMemberEmail(context.getInstructorID1()) }}</property>
+    <property
+       name="subject">you requested more information about a drop card for ({{ context.getFullname() }})</property>
+   </action>
+   <action type="collective.easytemplate.actions.Mail">
+    <property name="source"></property>
+    <property name="message">
+          More information about your drop card has been requested by {{context.getMemberEmail(context.getInstructorID1())}}.
+          
+          You must respond using the Add Comment action, then you must choose the Respond to Instructor Request button.
+          
+          You may view your request at any time by clicking on the following link:
+          
+          {{ context.absolute_url() }}
+          
+          
+          -------------
+          
+          Request is for {{ context.getFullname() }} ({{context.getStudentemail()}})
+          
+          and the class to be dropped is:
+          
+          {{context.getSubjects()}}, instructor is {{context.getMemberEmail(context.getInstructorID1())}})
+          
+          Here is your explanation of the drop:
+          
+          {{context.getComments()}}
+                              </property>
+    <property name="recipients">{{ context.getStudentemail() }}</property>
+    <property
+       name="subject">more information about your drop card has been requested by {{context.getMemberEmail(context.getInstructorID1())}}</property>
+   </action>
+  </actions>
+ </rule>
+ <rule name="--workflowmanager--dropcard--studentrespondstoinstructor1request"
+    title="studentrespondstoinstructor1request transition content rule"
+    description="This content rule was automatically created by the workflow manager to support actions on workflow transitions. If you want the behavior to work as expected, do not modify this outside the workflow manager."
+    enabled="True" event="Products.CMFCore.interfaces.IActionSucceededEvent"
+    stop-after="False">
+  <conditions>
+   <condition type="plone.conditions.WorkflowTransition">
+    <property name="wf_transitions">
+     <element>studentrespondstoinstructor1request</element>
+    </property>
+   </condition>
+   <condition type="plone.conditions.PortalType">
+    <property name="check_types">
+     <element>DropCard</element>
+    </property>
+   </condition>
+  </conditions>
+  <actions>
+   <action type="collective.easytemplate.actions.Mail">
+    <property name="source"></property>
+    <property name="message">
+          You responded to an information request about your drop card and it awaits review by {{context.getMemberEmail(context.getInstructorID1())}}
+          
+          
+          You may view your request at any time by clicking on the following link:
+          
+          {{ context.absolute_url() }}
+          
+          
+          -------------
+          
+          Request is for {{ context.getFullname() }} ({{context.getStudentemail()}})
+          
+          and the class to be dropped is:
+          
+          {{context.getSubjects()}}, instructor is {{context.getMemberEmail(context.getInstructorID1())}})
+          
+          
+          Here is your explanation of the drop:
+          
+          {{context.getComments()}}
+                              </property>
+    <property name="recipients">{{ context.getStudentemail() }}</property>
+    <property
+       name="subject">you responded to an information request about your drop card by {{context.getMemberEmail(context.getInstructorID1())}}</property>
+   </action>
+   <action type="collective.easytemplate.actions.Mail">
+    <property name="source"></property>
+    <property name="message">
+          The student has responded to your request for information for this drop card, and it is now awaiting your review:
+          
+          {{ context.absolute_url() }}
+          
+          The student is {{ context.getFullname() }} ({{context.getStudentemail()}})
+          
+          and would like to drop:
+          
+          {{context.getSubjects()}}, instructor is {{context.getMemberEmail(context.getInstructorID1())}})
+          
+          Here is the student's explanation of the drop:
+          
+          {{context.getComments()}}
+                              </property>
+    <property
+       name="recipients">{{ context.getMemberEmail(context.getInstructorID1())  }}</property>
+    <property
+       name="subject">{{ context.getFullname() }} has responded to your request for more information about their drop card</property>
+   </action>
+  </actions>
+ </rule>
+ <rule name="--workflowmanager--dropcard--retract"
+    title="retract transition content rule"
+    description="This content rule was automatically created by the workflow manager to support actions on workflow transitions. If you want the behavior to work as expected, do not modify this outside the workflow manager."
+    enabled="True" event="Products.CMFCore.interfaces.IActionSucceededEvent"
+    stop-after="False">
+  <conditions>
+   <condition type="plone.conditions.WorkflowTransition">
+    <property name="wf_transitions">
+     <element>retract</element>
+    </property>
+   </condition>
+   <condition type="plone.conditions.PortalType">
+    <property name="check_types">
+     <element>DropCard</element>
+    </property>
+   </condition>
+  </conditions>
+  <actions>
+   <action type="collective.easytemplate.actions.Mail">
+    <property name="source"></property>
+    <property name="message">
+          You have retracted your time conflict card request.
+          
+          
+          You may view your request at any time by clicking on the following link:
+          
+          {{ context.absolute_url() }}
+          
+          You may also edit and resubmit your request.
+          
+          -------------
+          
+          Request is for {{ context.getFullname() }} ({{context.getStudentemail()}})
+          
+          and is:
+          
+          {{context.getSubjects()}}, instructor is {{context.getMemberEmail(context.getInstructorID1())}})
+          
+          Here is your explanation of the drop request:
+          
+          {{context.getComments()}}
+                              </property>
+    <property name="recipients">{{ context.getStudentemail() }}</property>
+    <property
+       name="subject">you have retracted your time conflict card request </property>
+   </action>
+  </actions>
+ </rule>
+ <rule name="--workflowmanager--dropcard--instructor1deniesrequest"
+    title="instructor1deniesrequest transition content rule"
+    description="This content rule was automatically created by the workflow manager to support actions on workflow transitions. If you want the behavior to work as expected, do not modify this outside the workflow manager."
+    enabled="True" event="Products.CMFCore.interfaces.IActionSucceededEvent"
+    stop-after="False">
+  <conditions>
+   <condition type="plone.conditions.WorkflowTransition">
+    <property name="wf_transitions">
+     <element>instructor1deniesrequest</element>
+    </property>
+   </condition>
+   <condition type="plone.conditions.PortalType">
+    <property name="check_types">
+     <element>DropCard</element>
+    </property>
+   </condition>
+  </conditions>
+  <actions>
+   <action type="collective.easytemplate.actions.Mail">
+    <property name="source"></property>
+    <property name="message">
+          Your drop card request has been denied by {{context.getMemberEmail(context.getInstructorID1())}}.
+          
+          You may view your request at any time by clicking on the following link:
+          
+          {{ context.absolute_url() }}
+          
+          
+          -------------
+          
+          Request is for {{ context.getFullname() }} ({{context.getStudentemail()}})
+          
+          and the dropped class is:
+          
+          {{context.getSubject1()}}, instructor is {{context.getMemberEmail(context.getInstructorID1())}})
+          
+          Here is your explanation of the drop:
+          
+          {{context.getComments()}}
+                              </property>
+    <property name="recipients">{{ context.getStudentemail() }}</property>
+    <property
+       name="subject">your drop request has been denied by {{context.getMemberEmail(context.getInstructorID1())}}</property>
+   </action>
+   <action type="collective.easytemplate.actions.Mail">
+    <property name="source"></property>
+    <property name="message">
+          You denied this drop card request:
+          
+          {{ context.absolute_url() }}
+          
+          The student is {{ context.getFullname() }} ({{context.getStudentemail()}})
+          
+          and the class being dropped is:
+          
+          {{context.getSubjects()}}, instructor is {{context.getMemberEmail(context.getInstructorID1())}})
+          
+          Here is the student's explanation of the drop:
+          
+          {{context.getComments()}}
+                              </property>
+    <property
+       name="recipients">{{ context.getMemberEmail(context.getInstructorID1()) }}</property>
+    <property
+       name="subject">you denied a drop card request for ({{ context.getFullname() }})</property>
+   </action>
+  </actions>
+ </rule>
+ <assignment name="--workflowmanager--dropcard--submitforinstructor1approval"
+    bubbles="True" enabled="True" location=""/>
+ <assignment
+    name="--workflowmanager--dropcard--submittoregistrarforprocessing"
+    bubbles="True" enabled="True" location=""/>
+ <assignment name="--workflowmanager--dropcard--addcomment" bubbles="True"
+    enabled="True" location=""/>
+ <assignment
+    name="--workflowmanager--dropcard--registrarsofficecompletesprocessing"
+    bubbles="True" enabled="True" location=""/>
+ <assignment name="--workflowmanager--dropcard--instructor1deniesrequest"
+    bubbles="True" enabled="True" location=""/>
+ <assignment
+    name="--workflowmanager--dropcard--instructor1requestsmoreinformation"
+    bubbles="True" enabled="True" location=""/>
+ <assignment
+    name="--workflowmanager--dropcard--studentrespondstoinstructor1request"
+    bubbles="True" enabled="True" location=""/>
+ <assignment name="--workflowmanager--dropcard--retract" bubbles="True"
+    enabled="True" location=""/>
+ <assignment name="--workflowmanager--dropcard--instructor1deniesrequest"
+    bubbles="True" enabled="True" location=""/>
+</contentrules>
